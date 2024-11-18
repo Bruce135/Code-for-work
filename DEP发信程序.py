@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[3]:
-
-
 # 发送html内容的邮件
 import smtplib, time, random, os, glob
 from email.mime.text import MIMEText
@@ -22,7 +16,6 @@ file_1 = input('已参加过模板:')
 def send_mail_html():
     '''发送html内容邮件'''
     # 发送邮箱
-
     username = 'dep001@shanghairanking.com'  # 邮箱
     password = 'SH2020ranking'  # 密码
     sender = 'dep001@shanghairanking.com'
@@ -101,30 +94,7 @@ def send_mail_html():
 
 
 if __name__ == '__main__':
-    # li = ['shuohuai.li@shanghairanking.com']
-    # Send(li)
     send_mail_html()
-
-#
-# def find_new_file(dir):
-#     '''查找目录下最新的文件'''
-#     file_lists = os.listdir(dir)
-#     file_lists.sort(key=lambda fn: os.path.getmtime(dir + "\\" + fn)
-#                     if not os.path.isdir(dir + "\\" + fn)
-#                     else 0)
-#     # print('最新的文件为： ' + file_lists[-1])
-#     file = os.path.join(dir, file_lists[-1])
-#     print('完整文件路径：', file)
-#     return file
-#
-#
-# dir = 'D:\\test_data\\auto_test_result'  # 指定文件目录
-# file = find_new_file(dir)  # 查找最新的html文件
-# send_mail_html(file)  # 发送html内容邮件
-
-
-# In[ ]:
-
 
 
 
