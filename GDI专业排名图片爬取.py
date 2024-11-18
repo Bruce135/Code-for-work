@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[4]:
-
-
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
@@ -12,9 +6,6 @@ import random
 import glob
 import json
 requests.packages.urllib3.disable_warnings()
-
-
-# In[180]:
 
 
 # 下载所有专业类ID
@@ -36,14 +27,8 @@ df_id.set_axis(col, axis=1,inplace=True)
 df_id.to_excel("GDI查询ID.xlsx",index = False)
 
 
-# In[ ]:
-
-
 # 读取上一步怕爬好的专业类ID文件
 df_id = pd.read_excel(r"C:\Users\shrk-3121\GDI查询ID.xlsx")
-
-
-# In[182]:
 
 
 # 根据爬取的专业类ID组合为新的URL，爬取专业类下包含各专业的json文件
@@ -60,12 +45,7 @@ for i in range(0,df_id.shape[0]):
     except Exception as e:
         print(e)
 
-
-# In[183]:
-
-
 # 依次读取专业类的json文件，并提取出其中的专业页面URL
-
 path1 = r"C:\Users\shrk-3121\Desktop\GDI数据爬取"
 file_list = glob.glob(path1 + "/*.json")
 
@@ -86,16 +66,8 @@ col = ["专业名称","链接"]
 df_maj.set_axis(col, axis=1,inplace=True)
 df_maj.to_excel("GDI查询链接.xlsx",index = False)
 
-
-# In[212]:
-
-
 # 读取下载好的GDI专业排名链接
 df_maj = pd.read_excel(r"C:\Users\shrk-3121\GDI查询链接.xlsx")
-
-
-# In[221]:
-
 
 # 下载专业排名图片保存到本地
 for i in range(0,df.shape[0]):
@@ -113,10 +85,3 @@ for i in range(0,df.shape[0]):
         time.sleep(random.randint(1,3))
     except Exception as e:
         print(e)
-
-
-# In[ ]:
-
-
-
-
