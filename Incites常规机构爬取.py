@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 import requests,json,time,os
 import pandas as pd
 from retrying import retry
@@ -12,41 +6,22 @@ import glob
 requests.packages.urllib3.disable_warnings()
 
 
-# In[2]:
-
-
+#设置代理端口
 proxy = '127.0.0.1:7890'
 proxies = {'http': 'http://' + proxy,'https': 'http://' + proxy}
+
 # 定义爬取函数
 @retry(stop_max_attempt_number=8)
 def rty_post(url,headers,body,proxies):
     response = requests.post(url=url, data=json.dumps(body), headers=headers, proxies = proxies,timeout=20, verify=False)
     return response
 
-
-# In[3]:
-
-
 # 读取Q1期刊总表
 path = r"C:\Users\shrk-3121\Desktop\爬虫相关文件夹\Incites数据爬取\GRAS1-2023 学科分类.xlsx"
-# df = pd.read_excel(path)
-# 根据学科代码透视出该学科下所有的ISSN号
-# df = df.groupby('code')['ISSN'].apply(list).reset_index()
 
-
-# In[4]:
-
-
+#导入GRAS学科分类映射表
 df = pd.read_excel(path,sheet_name = "完整学科映射")
-
-
-# In[5]:
-
-
 df = df.groupby('学科代码')['WOS学科英文名'].apply(list).reset_index()
-
-
-# In[12]:
 
 
 for i in range(0,df.shape[0]):
@@ -110,17 +85,12 @@ for i in range(0,df.shape[0]):
             json.dump(response_json,f2,ensure_ascii=False,indent=4)
 
 
-# In[13]:
-
-
 # 读取爬取好的json文件夹下所有链接
 path1 = r"C:\Users\shrk-3121\Desktop\巴黎西岱大学2018-2022Incites数据明细"
 file_list = glob.glob(path1 + "/*.json")
 
 
-# In[16]:
-
-
+#设立一些空的列表存储爬取的数据
 Name = []
 Pub = []
 CNCI = []
@@ -147,9 +117,6 @@ col = ["机构名称","国家地区","Pub","Q1","CNCI","IC","学科代码"]
 df1.set_axis(col, axis=1,inplace=True)
 
 
-# In[14]:
-
-
 # 保存文件到excel
 tem = list(zip(Name,Num,Code))
 df1 = pd.DataFrame(tem)
@@ -157,10 +124,5 @@ col = ["机构名称","论文数","学科代码"]
 df1.set_axis(col, axis=1,inplace=True)
 with pd.ExcelWriter(r'C:\Users\shrk-3121\Desktop\爬虫相关文件夹\Incites数据爬取\TOP数据爬取更新（Q1）\常规数据\数据合并-常规.xlsx',engine='xlsxwriter',engine_kwargs={'options':{'strings_to_urls': False}}) as writer:
         df1.to_excel(writer, index=False)
-
-
-# In[ ]:
-
-
 
 
